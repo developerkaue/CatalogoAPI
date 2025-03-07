@@ -17,7 +17,6 @@
     <Folder Include="Extensions\" />
     <Folder Include="Middleware\" />
     <Folder Include="Validators\" />
-    <Folder Include="Services\" />
     <Folder Include="DTOs\" />
   </ItemGroup>
 
