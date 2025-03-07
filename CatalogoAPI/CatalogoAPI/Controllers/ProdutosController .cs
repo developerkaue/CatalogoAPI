@@ -1,5 +1,6 @@
 ﻿using CatalogoAPI.Models;
 using CatalogoAPI.Services;
+using CatalogoAPI.Validators;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogoAPI.Controllers

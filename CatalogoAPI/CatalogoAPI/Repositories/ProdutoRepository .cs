@@ -25,6 +25,18 @@ namespace CatalogoAPI.Repositories
 
         public async Task AddAsync(Produto produto)
         {
+            var categoriaExistente = await _context.Categorias.AnyAsync(c => c.Id == produto.CategoriaId);
+            if (!categoriaExistente)
+            {
+                throw new InvalidOperationException("A categoria especificada não existe.");
+            }
+
+            var produtoExistente = await _context.Produtos.AnyAsync(p => p.Nome == produto.Nome);
+            if (produtoExistente)
+            {
+                throw new InvalidOperationException("Já existe um produto com o mesmo nome.");
+            }
+
             await _context.Produtos.AddAsync(produto);
             await _context.SaveChangesAsync();
         }
@@ -47,7 +59,10 @@ namespace CatalogoAPI.Repositories
 
         public async Task<IEnumerable<Categoria>> GetCategoriasByProdutoIdAsync(int produtoId)
         {
-            var produto = await _context.Produtos.Include(p => p.Categoria).FirstOrDefaultAsync(p => p.Id == produtoId);
+            var produto = await _context.Produtos
+                                       .Include(p => p.Categoria) // Categoria é uma entidade relacionada
+                                       .FirstOrDefaultAsync(p => p.Id == produtoId);
+
             return produto != null ? new List<Categoria> { produto.Categoria } : Enumerable.Empty<Categoria>();
         }
     }

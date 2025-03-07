@@ -15,7 +15,9 @@ namespace CatalogoAPI.Data
             modelBuilder.Entity<Produto>()
                 .HasOne(p => p.Categoria)
                 .WithMany(c => c.Produtos)
-                .HasForeignKey(p => p.CategoriaId);
+                .HasForeignKey(p => p.CategoriaId)
+                .OnDelete(DeleteBehavior.Restrict); // Evita a exclusão em cascata
+
 
             base.OnModelCreating(modelBuilder);
         }
